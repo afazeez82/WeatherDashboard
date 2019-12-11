@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Weather Dashbaord</title>
   </head>
 
@@ -16,23 +16,24 @@
         <h1>Weather Dashboard</h1>
     </div>
         <div class="container">
-            <div class="col-4">
+    <div class="clearfix">
+            <div class="col-4 float-left">
                 <nav class="navbar navbar-light bg-light">
                     <h4>Search for a City:</h4>
                     <form class="form-inline">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                        <input id="city-input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button id="select-city" class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
                     </form>
+                    <div class="col-2">
+                    <form>
+                       <p id="history" class="text-muted border"></p>
+                    </form>
+                </div>
                 </nav>
             </div>
                 <div class="col-8 float-right">
-                    <div class="card bg-light text-dark">
-                        <h2 id="city-name" class="card-title">Place Holder</h2>
-                        <br>
-                        <p id="temp" class="card-text">Place Hoolder</p>
-                        <p id="hum"class="card-text">Place Holder</p>
-                        <p id="wind"class="card-text">Place Holder</p>
-                        <p id="UV"class="card-text">Place Holder</p>
+                    <div id="current" class="card bg-light text-dark p-2 rem" style="width: 710; height: 12rem;">
+        <!----------------------  Current weather goes here  ------------------------------------>
                     </div>
                 <br>
                 <h2>5-Day Forcast:</h2>
@@ -69,6 +70,7 @@
                     </div>
                 </div>
         </div>
+    </div>
     </div>
  
 
