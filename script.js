@@ -73,7 +73,6 @@ function searchCity(cityname) {
 
 }
 
-
 //------------------------Event handler for user city search-----------------------//
 
 
@@ -85,13 +84,34 @@ $("#select-city").on("click", function (event) {
 
     //save search term to local storage.....
     var textContent = $(this).siblings("input").val();
-    localStorage.setItem(cityInput, textContent);
+    var storearr = [];
+    storearr.push(textContent);
+    localStorage.setItem('cityName', JSON.stringify(storearr));
+  
+
+
+    //Store search term on page..................
+    // var history = localStorage.getItem(cityInput, textContent);
+    // var searchDiv = $("<div>");
+    // var psearch = $("<p class='text-muted border'>").text(history);
+    // searchDiv.append(psearch)
+    // $("#searchhistory").prepend(searchDiv);
 
     // Running the searchCity function (passing in the city as an argument) 
     searchCity(cityInput);
-
+    pageLoad();
 });
 
+//---------------------------Call stored items on page load-------------------------------------//
+
+function pageLoad () {
+    var lastSearch = JSON.parse(localStorage.getItem("cityName"));
+    var searchDiv = $("<div>");
+    var psearch = $("<p class='text-muted border'>").text(lastSearch);
+    searchDiv.append(psearch)
+    $("#searchhistory").prepend(searchDiv);
+}
+pageLoad();
 
 
 
@@ -106,62 +126,4 @@ $("#select-city").on("click", function (event) {
 
 
 
-
-
-
-
-
-
-
-
-//current --
-// name date icon
-// Temp
-// humidity 
-//wind speed
-// UV
-
-//5 day ---
-//date:
-//icon
-//Temp:
-//humidity:
-
-//create HTML for Tomorrow forcast...........................
-        // var onedateEl = $('<h5>').text(repsonse.list[i].dt_txt);
-        // var onetempEl = $('<h5>').text(repsonse.list[i].main.temp);
-        // var onehumEl = $('<h5>').text(repsonse.list[i].main.humidity);
-        // //create HTML for 2 days out forcast...........................
-        // var twodateEl = $('<p>').text(repsonse.list[i].dt_txt);
-        // var twotempEl = $('<p>').text(repsonse.list[i].main.temp);
-        // var twohumEl = $('<p>').text(repsonse.list[i].main.humidity);
-        // //create HTML for 3 days out forcast...........................
-        // var threedateEl = $('<p>').text(repsonse.list[i].dt_txt);
-        // var threetempEl = $('<p>').text(repsonse.list[i].main.temp);
-        // var threehumEl = $('<p>').text(repsonse.list[i].main.humidity);
-        // //create HTML for 4 days out forcast...........................
-        // var fourdateEl = $('<p>').text(repsonse.list[i].dt_txt);
-        // var fourtempEl = $('<p>').text(repsonse.list[i].main.temp);
-        // var fourhumEl = $('<p>').text(repsonse.list[i].main.humidity);
-        // //create HTML for 5 days out forcast...........................
-        // var fivedateEl = $('<p>').text(repsonse.list[i].dt_txt);
-        // var fivetempEl = $('<p>').text(repsonse.list[i].main.temp);
-        // var fivehumEl = $('<p>').text(repsonse.list[i].main.humidity);
-        // //create a new element to 
-        // var newOneCardDiv = $('<div>');
-        // var newTwoCardDiv = $('<div>');
-        // var newThreeCardDiv = $('<div>');
-        // var newFourCardDiv = $('<div>');
-        // var newFiveCardDiv = $('<div>');
-        // //appned 
-        // newOneCardDiv.append(onedateEl.onetempEl.onehumEl);
-        // newTwoCardDiv.append(twodateEl.twotempEl.twohumEl);
-        // newThreeCardDiv.append(threedateEl.threetempEl.threehumEl);
-        // newFourCardDiv.append(fourdateEl.fourtempEl.fourhumEl);
-        // newFiveCardDiv.append(fivedateEl.fivetempEl.fivehumEl);
-
-        // $('#5day').html(newOneCardDiv);
-        // $('#5day').html(newThreeCardDiv);
-        // $('#5day').html(newThreeCardDiv);
-        // $('#5day').html(newFourCardDiv);
-        // $('#5day').html(newFiveCardDiv);
+     
