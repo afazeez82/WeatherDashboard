@@ -3,19 +3,32 @@
 
 ## Summary 
 
-This application is a simple calander that allows the user to save events for each hour of the day. This run's in the browser and feature's dynamically updated HTML and CSS powered by jQuery. In addition the app display's standard business hours (9 a.m. to 5 p.m.) along the left hand side of each input row. Depending on the time of day, the schedule input feilds update their color indicating to the user wether items are in the past, present or future.
+This applicaiton is a weather dashboard with search functionality to find current weather conditions and the future weather outlook for multiple cities. This application utilizes the AJAX to hook into OpenWeather API to retrieve data in JSON format. Using dynamically updated HTML and CSS powered by jQuery we can show the user the follwoing information:
+Displayed the following under current weather conditions:
+- City
+- Date
+- Icon image (visual representation of weather conditions)
+- Temperature
+- Humidity
+- Wind speed
+- UV index
+Include a 5-Day Forecast below the current weather conditions. Each day for the 5-Day Forecast should display the following:
+- Date
+- Icon image (visual representation of weather conditions)
+- Temperature
+- Humidity
 
+It also Includes a search history so that users can access their past search terms. Clicking on the city name that populates under the search bar after their initial search, will perform a new search that returns current and future conditions for 
 
 ## Site Picture 
-![site]()
+![site](assets/weatherDashboard.png)
   
  
-
 ## Technologies Used
-- jQuery - Used for event listeners of parent and childeren elements as well as to store and recall those varible in local storage.
-- momentjs - Used to pull current date and local time.
+- jQuery - Used for event listeners of parent and childeren elements as well as to store and recall those varible in local      storage to be displayed dynamically in HTML on the page.
+- momentjs - Used to pull current date for the current city.
 - javascript - Used to dynamically change html and store user-input.
-- Bootstrap - Used to pull existing html and CSS for creating     resposive organizational structer and styling for the site.
+- Bootstrap - Used to pull existing html and CSS for creating resposive organizational structer and styling for the site.
 - HTML - Used to create elements on the DOM
 - CSS - Styles html elements on page
 - Git - Version control system to track changes to source code
@@ -24,32 +37,84 @@ This application is a simple calander that allows the user to save events for ea
 
 
 ## Code Snippet
-
-levraging jQuery for this calander simplified both the events that store user input to local storage as well as retrieveing them to be displayed on the page when the user refreshes the browser. By using specific id's correlating with the time of day we can retreive the varible stored in realtion to the onlcick that stored it.
+Pulling from the Openweather API listed bellow are the two calls within the city search function. These two calls are run when our onclick is triggered in our event listener. Onced this function is told to run it pulls the necessary information from the object retreived from the queryURL and we parse out the information we need into new varible elements we create. Taking these new elemetns we then append them into a new div that gets inserted into the HTML tag that we cleared at the begining of our function.
 
 ```js
 
-$(".rowBtn").on("click", function() {
-    var hour = $(this)
-    .parent()
-    .attr("id")
+function searchCity(cityname) {
 
-    var textContent = $(this)
-    .siblings("input")
-    .val();
-    localStorage.setItem(hour, textContent);
-    console.log(hour, textContent);
-});
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityname + "&units=imperial&appid=ecc0be5fd92206da3aa90cc41c13ca56";
+    var queryURLforcast = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityname + "&units=imperial&appid=ecc0be5fd92206da3aa90cc41c13ca56";
 
-$("#9am")
-.children("input")
-.val(localStorage.getItem("9am"));
+    $.ajax({
+        url: queryURL,
+        method: 'GET'
+    }).then(function (response) {
+        console.log(response);
+        console.log(queryURL);
+        //empty divs and ids that we need to dump content into.....
+        $("#current").empty();
+       var mainDate = moment().format('L');
+ 
+
+        //create HTML for city information......
+        var cityNameEl = $("<h2>").text(response.name);
+        var displayMainDate = cityNameEl.append(" " + mainDate);
+        var tempEL = $("<p>").text("Tempraturer: " + response.main.temp);
+        var humEl = $("<p>").text("Humidity: " + response.main.humidity);
+        var windEl = $("<p>").text("Wind Speed: " + response.wind.speed);
+        var currentweather = response.weather[0].main;
+        //conditional statments for weather icons............................................
+        if (currentweather === "Rain") {
+            var currentIcon = $('<img>').attr("src", "http://openweathermap.org/img/wn/09d.png");
+            currentIcon.attr("style", "height: 60px; width: 60px");
+        } else if (currentweather=== "Clouds") {
+            var currentIcon = $('<img>').attr("src", "http://openweathermap.org/img/wn/03d.png");
+            currentIcon.attr("style", "height: 60px; width: 60px");
+        } else if (currentweather === "Clear") {
+            var currentIcon = $('<img>').attr("src", "http://openweathermap.org/img/wn/01d.png");
+            currentIcon.attr("style", "height: 60px; width: 60px");
+        }
+         else if (currentweather === "Drizzle") {
+            var currentIcon = $('<img>').attr("src", "http://openweathermap.org/img/wn/10d.png");
+            currentIcon.attr("style", "height: 60px; width: 60px");
+        }
+         else if (currentweather === "Snow") {
+            var currentIcon = $('<img>').attr("src", "http://openweathermap.org/img/wn/13d.png");
+            currentIcon.attr("style", "height: 60px; width: 60px");
+        }
+        //create HTML div to append new elements to render on page....
+        var newDiv = $('<div>');
+
+        newDiv.append(displayMainDate, currentIcon, tempEL, humEl, windEl);
+
+        $("#current").html(newDiv);
+//---------------------------------------------UV index call ---------------------------------------//
+
+var lat = response.coord.lat;
+var lon = response.coord.lon;
+var queryURLUV = "https://api.openweathermap.org/data/2.5/uvi?&appid=ecc0be5fd92206da3aa90cc41c13ca56&lat=" + lat  + "&lon=" + lon;
+        //New call for the UV index information........................
+        $.ajax({
+            url: queryURLUV,
+            method: 'GET'
+        }).then(function (response) {
+            $('#uvl-display').empty();
+            var uvlresults = response.value;
+            //create HTML for new div
+            var uvlEl = $("<button class='btn bg-danger'>").text("UV Index: " + response.value);
+            //insert new UV element containing the index infromation from current forcast to corresponding id....
+            $('#uvl-display').html(uvlEl);
+    
+        });
+    });
 
 ```
 
 
 ## Built With
 
+* [API](https://openweathermap.org/api)
 * [jQuery](https://api.jquery.com/)
 * [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
 * [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
