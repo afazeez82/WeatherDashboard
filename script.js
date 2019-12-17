@@ -51,7 +51,8 @@ function searchCity(cityname) {
         newDiv.append(displayMainDate, currentIcon, tempEL, humEl, windEl);
 
         $("#current").html(newDiv);
-//---------------------------------------------UV call ---------------------------------------//
+        
+//--------------------------------------------- UV call ---------------------------------------//
 
 var lat = response.coord.lat;
 var lon = response.coord.lon;
@@ -64,7 +65,7 @@ var queryURLUV = "https://api.openweathermap.org/data/2.5/uvi?&appid=ecc0be5fd92
             $('#uvl-display').empty();
             var uvlresults = response.value;
             //create HTML for new div
-            var uvlEl = $("<button class='btn bg-danger'>").text("UV Index: " + response.value);
+            var uvlEl = $("<button class='btn bg-success'>").text("UV Index: " + response.value);
       
             $('#uvl-display').html(uvlEl);
     
@@ -83,7 +84,7 @@ var queryURLUV = "https://api.openweathermap.org/data/2.5/uvi?&appid=ecc0be5fd92
         //empty 5day div--------
         $("#5day").empty();
         //create HTML for 5day forcast................
-        for (var i = 0; i < results.length; i += 9) {
+        for (var i = 0; i < results.length; i += 8) {
             // Creating a div
             var fiveDayDiv = $("<div class='card shadow-lg text-white bg-primary mx-auto mb-10 p-2' style='width: 8.5rem; height: 11rem;'>");
             
@@ -116,7 +117,7 @@ var queryURLUV = "https://api.openweathermap.org/data/2.5/uvi?&appid=ecc0be5fd92
                 icon.attr("style", "height: 40px; width: 40px");
             }
              else if (weather === "Snow") {
-                var icon = $('<img class=>').attr("src", "http://openweathermap.org/img/wn/13d.png");
+                var icon = $('<img>').attr("src", "http://openweathermap.org/img/wn/13d.png");
                 icon.attr("style", "height: 40px; width: 40px");
             }
 
@@ -151,6 +152,7 @@ $("#select-city").on("click", function (event) {
     searchCity(cityInput);
     pageLoad();
 });
+
 //---------------------------Call stored items on page load-------------------------------------//
 function pageLoad () {
     var lastSearch = JSON.parse(localStorage.getItem("cityName"));
@@ -167,25 +169,3 @@ event.preventDefault();
     searchCity($(this).text());
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //Store search term on page..................
-    // var history = localStorage.getItem(cityInput, textContent);
-    // var searchDiv = $("<div>");
-    // var psearch = $("<p class='text-muted border'>").text(history);
-    // searchDiv.append(psearch)
-    // $("#searchhistory").prepend(searchDiv);
-    // Running the searchCity function (passing in the city as an argument) 
