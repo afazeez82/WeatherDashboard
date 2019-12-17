@@ -21,9 +21,8 @@ Include a 5-Day Forecast below the current weather conditions. Each day for the 
 It also Includes a search history so that users can access their past search terms. Clicking on the city name that populates under the search bar after their initial search, will perform a new search that returns current and future conditions for 
 
 ## Site Picture 
-![alt text](assets/weatherDashboard.png)
+![site](assets/weatherDashboard.png)
 
-  
  
 ## Technologies Used
 - jQuery - Used for event listeners of parent and childeren elements as well as to store and recall those varible in local      storage to be displayed dynamically in HTML on the page.
