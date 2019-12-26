@@ -20,7 +20,7 @@ Include a 5-Day Forecast below the current weather conditions. Each day for the 
 
 It also Includes a search history so that users can access their past search terms. Clicking on the city name that populates under the search bar after their initial search, will perform a new search that returns current and future conditions for 
 
-## Site Picture 
+## Site Demo
 ![site](Assets/weatherDashboard.webp)
 
  
